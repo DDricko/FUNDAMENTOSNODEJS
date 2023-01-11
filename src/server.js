@@ -1,17 +1,7 @@
 //const http = require('http')  padrão commonJS =>  require
 import http from 'node:http'   //EsModule => import/export
 
-//HTTP
-// - Metodo HTTP
-// - URL
-
-//GET => Buscar um recurso no back-end
-//POST => Criar um recurso no back-end
-//PUT => Atualizar um recurso no back-end
-//PATCH => Atualizar uma informação especifica de um recurso no back-end
-//Delete => Deletar um recurso no back-end
-
-//Cabeçalhos(req, res) = metadados 
+//HTTP status code
 
 const users = []
 
@@ -31,8 +21,10 @@ const server = http.createServer((req, res) => {
             email: 'eu.teste@gmil.com'
         })
 
-        return res.end('Criação de usuários')
+        return res.writeHead(201).end()
     }
+
+    return res.writeHead(404).end()
 
     return res.end('Hello World')
 })
