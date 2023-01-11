@@ -11,14 +11,26 @@ import http from 'node:http'   //EsModule => import/export
 //PATCH => Atualizar uma informação especifica de um recurso no back-end
 //Delete => Deletar um recurso no back-end
 
+//Cabeçalhos(req, res) = metadados 
+
+const users = []
+
 const server = http.createServer((req, res) => {
     const { method, url } = req
 
     if(method === 'GET' && url === '/users'){
-        return res.end('Listagem de usuários')   //early return
+        return res
+            .setHeader('Content-type', 'application/json')
+            .end(JSON.stringify(users))   //early return
     }
 
     if(method === 'POST' && url === '/users'){
+        users.push({
+            id: 1,
+            name: 'Eu',
+            email: 'eu.teste@gmil.com'
+        })
+
         return res.end('Criação de usuários')
     }
 
