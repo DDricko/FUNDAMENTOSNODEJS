@@ -1,10 +1,11 @@
 //const http = require('http')  padrão commonJS =>  require
 import http from 'node:http' //EsModule => import/export
+import { Database } from './database.js'
 import { json } from './middlewares/json.js'
 
 //HTTP status code
 
-const users = []
+const database = new Database()
 
 const server = http.createServer(async (req, res) => {
     const { method, url } = req
@@ -12,8 +13,9 @@ const server = http.createServer(async (req, res) => {
     await json(req, res)
 
     if (method === 'GET' && url === '/users') {
-        return res
-            .end(JSON.stringify(users)) //early return
+        const users = database.select('users')
+
+        return res.end(JSON.stringify(users)) //early return
     }
 
     if (method === 'POST' && url === '/users') {
@@ -22,11 +24,13 @@ const server = http.createServer(async (req, res) => {
             email
         } = req.body
 
-        users.push({
+        const user = {
             id: 1,
             name,
             email
-        })
+        }
+
+        database.insert('users', user)
 
         return res.writeHead(201).end()
     }
