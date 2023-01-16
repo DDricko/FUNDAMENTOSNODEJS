@@ -1,5 +1,6 @@
 //const http = require('http')  padrão commonJS =>  require
 import http from 'node:http' //EsModule => import/export
+import { randomUUID } from 'node:crypto'
 import { Database } from './database.js'
 import { json } from './middlewares/json.js'
 
@@ -25,7 +26,7 @@ const server = http.createServer(async (req, res) => {
         } = req.body
 
         const user = {
-            id: 1,
+            id: randomUUID(),
             name,
             email
         }
